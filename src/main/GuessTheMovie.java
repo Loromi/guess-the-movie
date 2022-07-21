@@ -46,9 +46,8 @@ public class GuessTheMovie {
 		}
 	}
 	
-	public static void printQuiz() {
+	public static void printQuiz(String movie) {
 		
-		String movie = getMovie();
 		char[] movieArray = new char[(movie.length())];
 		String quiz = "";
 		
@@ -58,12 +57,26 @@ public class GuessTheMovie {
 		
 		System.out.println("You are guessing: " + quiz);
 	}
+	
+	public static void getUserInput(String movie) {
+		
+		Scanner scanner = new Scanner(System.in);
+		
+		String guess = scanner.next();
+		
+		if (guess.equals(movie)) {
+			System.out.println("Congratulations! Your guess was right");
+		} else {
+			System.out.println("Guess again.");
+		}
+	}
 
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 		System.out.println("Welcome to guess the movie. Game still needs to be built...");
 		String movie = getMovie();
-		printQuiz();
+		printQuiz(movie);
+		getUserInput(movie);
 	}
 
 }
