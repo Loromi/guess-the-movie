@@ -44,14 +44,26 @@ public class GuessTheMovie {
 			e.printStackTrace();
 			return "IOException";
 		}
-		
 	}
 	
+	public static void printQuiz() {
+		
+		String movie = getMovie();
+		char[] movieArray = new char[(movie.length())];
+		String quiz = "";
+		
+		for (int i=0; i<=movieArray.length; i++) {
+			quiz += "_ ";
+		}
+		
+		System.out.println("You are guessing: " + quiz);
+	}
 
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 		System.out.println("Welcome to guess the movie. Game still needs to be built...");
 		String movie = getMovie();
+		printQuiz();
 	}
 
 }
