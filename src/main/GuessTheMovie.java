@@ -61,18 +61,14 @@ public class GuessTheMovie {
 		return movieArray;
 	}
 	
-	public static void printSolution(String movie, char guess, char[] movieArray) {
-		
+	public static void printSolution(char[] solution, char guess, char[] movieArray) {
+				
 		for (int i=0; i<movieArray.length; i++) {
 			if (movieArray[i] == guess) {
-				System.out.print(movieArray[i]); 
-				System.out.print(" ");
-			} else { 
-				System.out.print("_ ");
+				solution[i] = movieArray[i];
 			}
-			
 		}
-		System.out.println();
+		System.out.println(solution);
 	}
 	
 	public static char getUserInput(String movie) {
@@ -91,10 +87,15 @@ public class GuessTheMovie {
 		System.out.println("Welcome to guess the movie. Game still needs to be built...");
 		String movie = getMovie();
 		char[] movieArray = printQuiz(movie);
+		char[] solution = new char[(movie.length())];
+		
+		for (int i=0; i<movieArray.length; i++) {
+			solution[i] = '_';
+		}
+		
 		while (!foundSolution) {
 			char guess = getUserInput(movie);
-			printSolution(movie, guess, movieArray);
+			printSolution(solution, guess, movieArray);
 		}
 	}
-
 }
