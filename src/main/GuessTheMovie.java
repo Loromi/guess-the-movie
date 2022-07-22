@@ -8,6 +8,8 @@ import java.util.concurrent.ThreadLocalRandom;
 
 public class GuessTheMovie {
 	
+	private static boolean foundSolution = false;
+	
 	public static String getMovie() {
 		
 		String pathname = System.getProperty("user.dir")+"/movies.txt";
@@ -46,37 +48,53 @@ public class GuessTheMovie {
 		}
 	}
 	
-	public static void printQuiz(String movie) {
+	public static char[] printQuiz(String movie) {
 		
+		System.out.print("You are guessing: ");
 		char[] movieArray = new char[(movie.length())];
-		String quiz = "";
+		movieArray = movie.toCharArray();
 		
-		for (int i=0; i<=movieArray.length; i++) {
-			quiz += "_ ";
+		for (int i=0; i<movieArray.length; i++) {
+			System.out.print("_ ");	
 		}
-		
-		System.out.println("You are guessing: " + quiz);
+		System.out.println();
+		return movieArray;
 	}
 	
-	public static void getUserInput(String movie) {
+	public static void printSolution(String movie, char guess, char[] movieArray) {
+		
+		for (int i=0; i<movieArray.length; i++) {
+			if (movieArray[i] == guess) {
+				System.out.print(movieArray[i]); 
+				System.out.print(" ");
+			} else { 
+				System.out.print("_ ");
+			}
+			
+		}
+		System.out.println();
+	}
+	
+	public static char getUserInput(String movie) {
 		
 		Scanner scanner = new Scanner(System.in);
 		
-		String guess = scanner.next();
+		char[] userInput = scanner.next().toCharArray();
 		
-		if (guess.equals(movie)) {
-			System.out.println("Congratulations! Your guess was right");
-		} else {
-			System.out.println("Guess again.");
-		}
+		char guess = userInput[0];
+		
+		return guess;
 	}
 
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 		System.out.println("Welcome to guess the movie. Game still needs to be built...");
 		String movie = getMovie();
-		printQuiz(movie);
-		getUserInput(movie);
+		char[] movieArray = printQuiz(movie);
+		while (!foundSolution) {
+			char guess = getUserInput(movie);
+			printSolution(movie, guess, movieArray);
+		}
 	}
 
 }
