@@ -9,6 +9,7 @@ import java.util.concurrent.ThreadLocalRandom;
 public class GuessTheMovie {
 	
 	private static boolean foundSolution = false;
+	private static int tries;
 	
 	public static String getMovie() {
 		
@@ -62,13 +63,17 @@ public class GuessTheMovie {
 	}
 	
 	public static void printSolution(char[] solution, char guess, char[] movieArray) {
-				
+		
+		if (new String(movieArray).indexOf(guess) < 0) {
+			tries--;
+		}
 		for (int i=0; i<movieArray.length; i++) {
 			if (movieArray[i] == guess) {
 				solution[i] = movieArray[i];
 			}
 		}
 		System.out.println(solution);
+		System.out.println("You have guessed " + (-1 * (tries - 10)) + " wrong letters");
 	}
 	
 	public static char getUserInput(String movie) {
@@ -84,6 +89,7 @@ public class GuessTheMovie {
 
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
+		tries = 10;
 		System.out.println("Welcome to guess the movie. Game still needs to be built...");
 		String movie = getMovie();
 		char[] movieArray = printQuiz(movie);
@@ -93,9 +99,13 @@ public class GuessTheMovie {
 			solution[i] = '_';
 		}
 		
-		while (!foundSolution) {
+		while (!foundSolution && tries > 0) {
 			char guess = getUserInput(movie);
 			printSolution(solution, guess, movieArray);
+		}
+		
+		if (tries == 0) {
+			System.out.println("Unfortunately you're out of tries");
 		}
 	}
 }
