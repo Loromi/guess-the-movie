@@ -3,6 +3,7 @@ package main;
 import java.io.File;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
+import java.util.Arrays;
 import java.util.Scanner;
 import java.util.concurrent.ThreadLocalRandom;
 
@@ -25,6 +26,7 @@ public class GuessTheMovie {
 				i++;
 				scanner.nextLine();
 			} 
+			scanner.close();
 			
 			String[] lines = new String[i+1];
 			scanner = new Scanner(movies, StandardCharsets.UTF_8);
@@ -35,7 +37,7 @@ public class GuessTheMovie {
 				lines[j] = line;
 				j++;
 			}
-			
+			scanner.close();
 			System.out.println("Number of movies: " + lines.length);
 			int k = ThreadLocalRandom.current().nextInt(0, lines.length);
 			String movie = lines[k];
@@ -62,13 +64,20 @@ public class GuessTheMovie {
 		return movieArray;
 	}
 	
-	public static void printSolution(char[] solution, char guess, char[] movieArray) {
+	public static void printSolution(char[] solution, char[] guess, char[] movieArray) {
 		
-		if (new String(movieArray).indexOf(guess) < 0) {
+		char firstChar = guess[0];
+		System.out.println(guess);
+		System.out.println(movieArray);
+		if (Arrays.equals(guess, movieArray)) {
+			foundSolution = true;
+			System.out.println("foundSolution: " + foundSolution);
+		}
+		if (new String(movieArray).indexOf(firstChar) < 0) {
 			tries--;
 		}
 		for (int i=0; i<movieArray.length; i++) {
-			if (movieArray[i] == guess) {
+			if (movieArray[i] == firstChar) {
 				solution[i] = movieArray[i];
 			}
 		}
@@ -76,15 +85,15 @@ public class GuessTheMovie {
 		System.out.println("You have guessed " + (-1 * (tries - 10)) + " wrong letters");
 	}
 	
-	public static char getUserInput(String movie) {
+	public static char[] getUserInput(String movie) {
 		
 		Scanner scanner = new Scanner(System.in);
 		
-		char[] userInput = scanner.next().toCharArray();
+		char[] userInput = scanner.nextLine().toCharArray();	
+		scanner.close();
+		// char guess = userInput[0];
 		
-		char guess = userInput[0];
-		
-		return guess;
+		return userInput;
 	}
 
 	public static void main(String[] args) {
@@ -100,7 +109,8 @@ public class GuessTheMovie {
 		}
 		
 		while (!foundSolution && tries > 0) {
-			char guess = getUserInput(movie);
+			char[] guess = getUserInput(movie);
+
 			printSolution(solution, guess, movieArray);
 		}
 		
