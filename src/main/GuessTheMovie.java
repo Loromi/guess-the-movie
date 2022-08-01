@@ -81,8 +81,9 @@ public class GuessTheMovie {
 			if (movieArray[i] == firstChar) {
 				solution[i] = movieArray[i];
 			}
+			System.out.print(solution[i] + " ");
 		}
-		System.out.println(solution);
+		System.out.println();
 		System.out.println("You have guessed " + (-1 * (tries - 10)) + " wrong letters");
 	}
 	
