@@ -29,7 +29,7 @@ public class GuessTheMovie {
 			} 
 			scanner.close();
 			
-			String[] lines = new String[i+1];
+			String[] lines = new String[i];
 			scanner = new Scanner(movies, StandardCharsets.UTF_8);
 			
 			int j = 0;
