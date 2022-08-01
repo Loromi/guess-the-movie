@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
+import java.util.NoSuchElementException;
 import java.util.Scanner;
 import java.util.concurrent.ThreadLocalRandom;
 
@@ -85,14 +86,16 @@ public class GuessTheMovie {
 		System.out.println("You have guessed " + (-1 * (tries - 10)) + " wrong letters");
 	}
 	
-	public static char[] getUserInput(String movie) {
+	public static char[] getUserInput(String movie) throws NoSuchElementException {
 		
 		Scanner scanner = new Scanner(System.in);
 		
-		char[] userInput = scanner.nextLine().toCharArray();	
-		scanner.close();
+		char[] userInput;
+
+		userInput = scanner.nextLine().toCharArray();
+		// scanner.close();
+			
 		// char guess = userInput[0];
-		
 		return userInput;
 	}
 
@@ -109,6 +112,7 @@ public class GuessTheMovie {
 		}
 		
 		while (!foundSolution && tries > 0) {
+			
 			char[] guess = getUserInput(movie);
 
 			printSolution(solution, guess, movieArray);
