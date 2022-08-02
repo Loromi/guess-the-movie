@@ -17,7 +17,6 @@ public class GuessTheMovie {
 		
 		String pathname = System.getProperty("user.dir")+"/movies.txt";
 		File movies = new File(pathname);
-		System.out.println("File exists: " + movies.exists());
 		
 		try {
 			Scanner scanner = new Scanner(movies, StandardCharsets.UTF_8);
@@ -39,14 +38,11 @@ public class GuessTheMovie {
 				j++;
 			}
 			scanner.close();
-			System.out.println("Number of movies: " + lines.length);
 			int k = ThreadLocalRandom.current().nextInt(0, lines.length);
 			String movie = lines[k];
-			System.out.println("random movie: " + movie);
 			
 			return movie;
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 			return "IOException";
 		}
@@ -65,17 +61,13 @@ public class GuessTheMovie {
 		return movieArray;
 	}
 	
-	public static void printSolution(char[] solution, char[] guess, char[] movieArray) {
+	public static void printSolution(char[] solution, char[] guess, char[] movieArray, String movie) {
 		
 		char firstChar = guess[0];
-		System.out.println(guess);
-		System.out.println(movieArray);
-		if (Arrays.equals(guess, movieArray)) {
-			foundSolution = true;
-			System.out.println("foundSolution: " + foundSolution);
-		}
+		
 		if (new String(movieArray).indexOf(firstChar) < 0) {
 			tries--;
+			System.out.println("You have guessed " + (-1 * (tries - 10)) + " wrong letters");
 		}
 		for (int i=0; i<movieArray.length; i++) {
 			if (movieArray[i] == firstChar) {
@@ -83,8 +75,11 @@ public class GuessTheMovie {
 			}
 			System.out.print(solution[i] + " ");
 		}
-		System.out.println();
-		System.out.println("You have guessed " + (-1 * (tries - 10)) + " wrong letters");
+		if (Arrays.equals(guess, movieArray) || Arrays.equals(solution, movieArray)) {
+			foundSolution = true;
+			System.out.println("You win!");
+			System.out.println("You have guessed " + movie + " correctly.");
+		}
 	}
 	
 	public static char[] getUserInput(String movie) throws NoSuchElementException {
@@ -94,16 +89,13 @@ public class GuessTheMovie {
 		char[] userInput;
 
 		userInput = scanner.nextLine().toCharArray();
-		// scanner.close();
-			
-		// char guess = userInput[0];
+
 		return userInput;
 	}
 
 	public static void main(String[] args) {
-		// TODO Auto-generated method stub
 		tries = 10;
-		System.out.println("Welcome to guess the movie. Game still needs to be built...");
+		System.out.println("Welcome to guess the movie.");
 		String movie = getMovie();
 		char[] movieArray = printQuiz(movie);
 		char[] solution = new char[(movie.length())];
@@ -115,8 +107,9 @@ public class GuessTheMovie {
 		while (!foundSolution && tries > 0) {
 			
 			char[] guess = getUserInput(movie);
-
-			printSolution(solution, guess, movieArray);
+			System.out.println();
+			printSolution(solution, guess, movieArray, movie);
+			System.out.println();
 		}
 		
 		if (tries == 0) {
